@@ -4,10 +4,21 @@ function Home({res}) {
 
   const [text, setText] = useState("")
   const [city, setCity] = useState("")
+  const [next,setNext] = useState(10)
+  const [prev,setPrev] = useState(0)
+
+  const increment = () => {
+    setNext((prev)=>prev+10)
+    setPrev((prev)=>prev+10)
+    console.log(next+" "+prev)
+  }
+  const decrement = () => {
+    setNext((prev)=>prev-10)
+    setPrev((prev)=>prev-10)
+  }
 
   return (
     <>
-    {!res && <p>Loading</p>}
     <input placeholder='Search...' onChange={(e) => setCity(e.target.value)}/>
     {/* <input placeholder='Search...' onChange={(e) => setText(e.target.value)}/> */}
     <input placeholder='Search...' onChange={(e) => setText(e.target.value)}/>
@@ -22,7 +33,7 @@ function Home({res}) {
       
         {
 
-        res.filter((val) => {
+        res.filter((val) => { 
           if(text == ""){
             if(city == ""){
               return val
@@ -30,8 +41,6 @@ function Home({res}) {
               return val;
             }
           }else{
-            {/* console.log("branch "+val.branch.toLowerCase());
-            console.log("b "+city.toLowerCase()) */}
             if(val.bank_name.toLowerCase().includes(text.toLowerCase())){
               if(city == ""){
                 return val
@@ -48,11 +57,14 @@ function Home({res}) {
         <td>{val.bank_id}</td>
         <td>{val.address}</td>
         </tr>
-        </>})
-        
+        </>
         }
-      
+        ).slice(prev,next)
+        }
     </table>
+    <button onClick={()=>decrement()}>pev</button>
+    <button onClick={()=>increment()}>Next</button>
+        
     </>
   )
 }
