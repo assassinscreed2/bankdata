@@ -6,6 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
+import SideBar from '../components/sidebar';
+import { Grid } from '@mui/material';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -20,8 +22,17 @@ export default function MyApp(props) {
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <Grid container direction = "row">
+          <Grid item md = {1.5} sm = {2}>
+            <SideBar />
+          </Grid>
+          <Grid item md = {9} sm = {9}>
+            <Component {...pageProps} />
+          </Grid>
+        </Grid>
         <CssBaseline />
-        <Component {...pageProps} />
+        
+        
       </ThemeProvider>
     </CacheProvider>
   );
