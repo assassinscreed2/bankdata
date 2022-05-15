@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react'
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
@@ -14,6 +15,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const [name,setName] = useState("All BANKS")
 
   return (
     <CacheProvider value={emotionCache}>
@@ -24,10 +26,10 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <Grid container direction = "row">
           <Grid item md = {1.5} sm = {2}>
-            <SideBar />
+            <SideBar setName={setName}/>
           </Grid>
           <Grid item md = {9} sm = {9}>
-            <Component {...pageProps} />
+            <Component {...pageProps} name={name}/>
           </Grid>
         </Grid>
         <CssBaseline />

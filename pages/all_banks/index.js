@@ -1,13 +1,19 @@
 import {useState} from 'react'
 import Banks from '../../components/banks'
 import Header from '../../components/header'
+import { Grid } from '@mui/material'
+import FavoriteBanks from '../../components/favoritebank'
 
-function AllBanks({res,error}) {
+function AllBanks({res,error,name}) {
   const [category, setCategory] = useState("")
   const [categoryType,setCategoryType] = useState("")
   const [city, setCity] = useState("")
   const [next,setNext] = useState(10)
   const [prev,setPrev] = useState(0)
+  const [favoriteBanks,setFavoriteBanks] = useState([])
+
+  console.log(name)
+ // debugger
 
   const increment = () => {
     setNext((prev)=>prev+10)
@@ -23,8 +29,17 @@ function AllBanks({res,error}) {
     {
       error === false ? 
       <>
-        <Header setCity={setCity} setCategoryType={setCategoryType} setCategory={setCategory}/>
-        <Banks banks={res} city={city} categoryType={categoryType} category={category} prev={prev} next={next}/>
+        <Grid container style={{marginLeft:"2em",paddingBottom:"1em",paddingTop:"1em"}} direction = "row" justifyContent="space-between"i>
+            <Grid item>
+                <h3>{name}</h3>
+            </Grid>
+            <Grid item style={{marginLeft:"4em"}}>
+                <Header setCity={setCity} setCategoryType={setCategoryType} setCategory={setCategory}/>
+            </Grid>
+        </Grid>
+        <Banks banks={res} city={city} categoryType={categoryType} category={category} prev={prev} next={next}
+              favoriteArray={favoriteBanks} setFavoriteBanks={setFavoriteBanks} />
+        <FavoriteBanks favoriteArray={favoriteBanks} setFavoriteBanks={setFavoriteBanks} prev={prev} next={next}/>
         <button onClick={()=>decrement()}>pev</button>
         <button onClick={()=>increment()}>Next</button>
       </>:

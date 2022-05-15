@@ -4,12 +4,13 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { IconButton } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useRouter } from 'next/dist/client/router';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
-export default function Banks({banks,city,categoryType,category,next,prev,favoriteArray}){
+export default function Banks({banks,city,categoryType,category,next,prev,favoriteArray,setFavoriteBanks}){
     const router = useRouter()
     console.log(city+" "+category)
 
@@ -68,7 +69,17 @@ export default function Banks({banks,city,categoryType,category,next,prev,favori
                             (detail,i)=>(
                                 <>
                                     <TableRow key = {i} style={{height:"7em"}}>
-                                        <TableCell><FavoriteBorderIcon /></TableCell>
+                                        <TableCell><IconButton onClick={()=>{
+                                            if(favoriteArray && favoriteArray.includes(detail)){
+                                                setFavoriteBanks((prev) => prev.filter((d) => d!==detail))
+                                            }else{
+                                                setFavoriteBanks((prev) => {let arr = prev.filter((d)=> d!==detail); arr.push(detail); return arr;})
+                                            }
+                                            //console.log(favoriteArray)
+                                        }} color={(favoriteArray.includes(detail))?"success":"warning"} aria-label="fingerprint" >
+                                                        <FavoriteBorderIcon />
+                                                    </IconButton>
+                                        </TableCell>
                                         <TableCell onClick={()=>router.push('/detail')}>{detail.bank_name}</TableCell>
                                         <TableCell>{detail.ifsc}</TableCell>
                                         <TableCell>{detail.branch}</TableCell>
